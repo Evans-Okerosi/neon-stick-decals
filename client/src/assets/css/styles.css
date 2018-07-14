@@ -1,0 +1,22 @@
+*{
+margin:0;
+padding:0
+}
+
+.slide{
+    min-height:650px;
+    
+}
+.overlay{
+    background:rgba(0,0,0,0.4);
+    width:100%;
+    display:absolute;
+    z-index:1;
+    height:650px;
+}
+.info{
+    position:relative;
+    top:8em;
+    left:5em;
+    width:45em;
+}

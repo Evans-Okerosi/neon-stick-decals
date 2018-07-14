@@ -1,0 +1,48 @@
+{
+  "name": "sleek-craft-decals",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "colors": "^1.1.2",
+    "concurrently": "^3.5.1",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^5.0.1",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.0.2",
+    "global": "^4.3.2",
+    "helmet": "^3.12.0",
+    "jsonwebtoken": "^8.2.1",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "node-mailer": "^0.1.1",
+    "nodemon": "^1.17.5",
+    "oauth2orize": "^1.11.0",
+    "package.json": "^2.0.1",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "passport-oauth2-client-password": "^0.1.2",
+    "serve-favicon": "^2.5.0",
+    "underscore": "^1.8.3",
+    "uploadcare-node": "^0.1.1"
+  },
+  "scripts": {
+    "server": "set NODE_ENV='development' && nodemon server",
+    "client": "cd client && yarn start",
+    "deploy": "set NODE_ENV='production' && node server",
+    "test": "echo 'sorry no test specified yet!'"
+  },
+  "homepage": "http://localhost:8000",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "mocha": "^5.0.5"
+  }
+}
