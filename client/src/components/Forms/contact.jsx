@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField, withStyles } from "material-ui";
-import { formStyle } from "variables/styles.jsx"
+
 
 
 const FormElement = props => {
@@ -47,10 +47,9 @@ class ContactForm extends React.Component {
 console.log('error started here', err + info)
   }
   render() {
-    const classes = this.props.classes;
     return (
-      <div className={classes.root}>
-        <form onSubmit={this.onSubmit} name="ContactForm" className={classes.form} >
+      <div >
+        <form onSubmit={this.onSubmit} name="ContactForm"  >
           <FormElement
             label="Fisrt Name"
             id="Fname"
@@ -89,4 +88,4 @@ console.log('error started here', err + info)
   }
 }
 
-export default withStyles(formStyle)(ContactForm);
+export default ContactForm;
