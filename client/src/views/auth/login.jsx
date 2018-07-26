@@ -8,7 +8,7 @@ class LoginPage extends React.Component {
     const classes = this.props.classes;
     return (
       <div className={classes.background}>
-        <Grid xs={12} justify="center" container alignContent="center" >
+        <Grid xs={12} justify="center" container alignItems="center" >
           <Grid xs={12} md={4} item spacing={40} >
             <LoginForm />
           </Grid>

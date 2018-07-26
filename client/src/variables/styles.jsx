@@ -81,6 +81,13 @@ export const colors = {
       minHeight:700
   }
 }
+export const signupPageStyle = {
+    background: {
+        background: "url(https://source.unsplash.com/random/1366x768)",
+        minWidth:750,
+        minHeight:700
+    }
+}
 export const cardStyles= {
     
   };

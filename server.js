@@ -28,16 +28,10 @@ app.use(express.static(`${__dirname}/client/public`));
 app.use(passport.initialize());
 
 // passport strategies
-const localSignupStrategy = require('./passport/local-signup');
 const localLoginStrategy = require('./passport/local-login');
 
-passport.use('local-signup', localSignupStrategy);
 passport.use('local-login', localLoginStrategy);
 
-// auth check middleware
-const authCheckMiddleware = require('./middleware/auth-check');
-
-app.use('/user', authCheckMiddleware);
 // ROUTES
 const userInfo = require('./controllers/user/info');
 

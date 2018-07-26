@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require("../models/user/user");
 const PassportLocalStrategy = require("passport-local").Strategy;
+const User = require("../models/user/user");
 const settings = require("../config/settings");
 /**
  * Return passport local strategy object.
@@ -11,9 +11,9 @@ module.exports = new PassportLocalStrategy(
     usernameField: "email",
     passwordField: "password",
     session: false,
-    passReqToCallback: true
+    passReqToCallback: false
   },
-  (req, email, password, done) => {
+  (email, password, done) => {
     const userData = {
       // remove white spaces before and after strings
       email: email.trim(),

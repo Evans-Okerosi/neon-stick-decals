@@ -1,42 +1,63 @@
 const express = require('express');
 const validator = require('validator');
-const passport = require('passport');
+const user = require('../../models/user/user');
 
-router = express.Router()
- function validateSignupForm(form){
-     return true
- }
+const router = express.Router();
 
-router.post("/signup", (req,res, next)=> {
-    const validationResult = validateSignupForm(req.body)
-    if(!validationResult.success) {
-        return res.status(400).json({
-            success: false,
-            message: validationResult.message,
-            errors: validationResult.errors
-        })
-    }
-    return passport.authenticate('local-signup', err =>{
-        if(err){
-            if(err.name==="MysqlError" && err.code === 11000) {
-                //TODO: check mysql errors
-                 return res.status(409).json({
-                     success: false,
-                     message: "check form for errors",
-                     errors: {
-                         email: " this email is already taken"
-                     }
-                 })
-            }
-            return res.status(400).json({
-                success: false,
-                message:" could not process the form"
-            })
-        }
-        return res.status(200).json({
-            success:true,
-            message: "sign up successful"
-        })
+router.post('/signup', (req, res) => {
+  // validate the form
 
+  const validForm = () => {
+    let { email, userName, name, password, dateOfBirth, gender } = req.data;
+    // remove spaces from both ends of string
+    email = email.toLowerCase().trim()
+    userName = userName.toLowerCase().trim();
+    name = name.trim().toLowerCase().trim();
+    password = password.trim();
+    dateOfBirth = dateOfBirth.trim();
+    gender = gender.toLowerCase().trim();
+
+    if (!validator.isEmail(email)) return false;
+    if (!validator.toDate(dateOfBirth)) return false;
+
+    // Ensure input is alphanumeric. N/B date is not included.
+    const alphanumeric = [email, userName, password, gender, name].filter(
+      // return true for each element that is not alphanumeric
+      text => !validator.isAlphanumeric(text)
+    );
+    if (alphanumeric.length !== 0) return false;
+
+    return { email, name, password, dateOfBirth, gender };
+  };
+
+  if (!validForm) {
+    return res.status(400).json({
+      success: false,
+      message: 'check the form for errors and try again.'
+    });
+  }
+  const newUser = new user({validForm});
+  try {
+    newUser.save();
+    // on success
+    res.status(200).json({
+        sucess:true,
+        message: 'user registration successful'
     })
-})
+
+  } catch (error) {
+    if (error.name === 'InvalidCredentialsError') {
+      return res.status(409).json({
+        success: false,
+        message: 'email or username already taken'
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: ' could not process the form'
+    });
+  }
+
+});
+
+module.exports = router;
