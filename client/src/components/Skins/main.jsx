@@ -1,13 +1,11 @@
 import React from "react";
 import axios from "axios"
 import Transition from "react-transition-group/Transition";
-import cookies from "js-cookie"
 import{ Link } from "react-router-dom"
 import { withStyles } from "material-ui";
 import { imageResponsive } from "variables/styles.jsx";
 import { PropTypes } from "prop-types";
-import { Bttn } from "components"
-import { Redirect } from "react-router-dom"
+
 
 
 const styles = {

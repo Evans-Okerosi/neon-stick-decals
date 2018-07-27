@@ -1,10 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import TimePicker from 'material-ui-pickers/TimePicker'
-import DatePicker from 'material-ui-pickers/DatePicker';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils'
 import { withRouter } from 'react-router-dom';
 import {
   Typography,
@@ -16,7 +12,8 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  Input
 } from 'material-ui';
 import emailValidator from 'utils/emailValidator';
 const styles = theme => ({
@@ -41,10 +38,8 @@ class SignupForm extends React.Component {
         password: ''
       },
       error: {
-        email: {
-          isTaken: false,
-          isIncorrect: false
-        },
+        emailIsTaken:false,
+        emailIsIncorrect:false,
         network: false,
         userName: false,
         gender: false,
@@ -56,7 +51,7 @@ class SignupForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onRadioChange = this.onRadioChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this)
+    this.onDateChange = this.onDateChange.bind(this);
   }
   onSubmit(e) {
     e.preventDefault();
@@ -64,23 +59,23 @@ class SignupForm extends React.Component {
      * Confirm the validity of entered data
      */
 
-    // Check for empty fields
+    // password
     if (this.state.userData.password === '') {
       this.setState({
         error: {
+          ...this.state.error,
           password: true
         }
       });
-      return false;
     }
     // Username
     if (this.state.userData.userName === '') {
-      this.state.setState({
+      this.setState({
         error: {
+          ...this.state.error,
           userName: true
         }
       });
-      return false;
     }
     // Confirm password
     if (
@@ -89,40 +84,48 @@ class SignupForm extends React.Component {
     ) {
       this.setState({
         error: {
+          ...this.state.error,
           confirm_password: true
         }
       });
-      return false;
     }
     // date of birth
     if (this.state.userData.dateOfBirth === '') {
       this.setState({
         error: {
+          ...this.state.error,
           dateOfBirth: true
         }
       });
-      return false;
     }
     // gender
     if (this.state.userData.gender === '') {
       this.setState({
         error: {
+          ...this.state.error,
           gender: true
         }
       });
-      return false;
     }
     // Email
     if (!emailValidator(this.state.userData.email)) {
       this.setState({
         error: {
-          email: {
-            isIncorrect: true
-          }
+          ...this.state.error,
+          emailIsIncorrect:true
         }
       });
-      return false;
     }
+    //make sure there are no errors before sending info to server
+    const checkForErrors = ()=>{
+      const ready = Object.values(this.state.error).filter(error => {
+        return error ===true
+      })
+      if(ready) return false
+    }
+    //return false if any errors were found
+    if(checkForErrors) return false
+    
     // send data to server
     axios
       .post('/signup', this.state.userData)
@@ -134,6 +137,7 @@ class SignupForm extends React.Component {
         if (error.network) {
           this.setState({
             error: {
+              ...this.state.error,
               network: true
             }
           });
@@ -142,15 +146,15 @@ class SignupForm extends React.Component {
           if (error.responce.data.ErrorName === 'EmailTakenError') {
             this.setState({
               error: {
-                email: {
-                  isTaken: true
-                }
+                ...this.state.error,
+                emailIsTaken:true
               }
             });
           }
           if (error.response.data.ErrorName === 'TakenUserNameError') {
             this.setState({
               error: {
+                ...this.state.error,
                 userName: true
               }
             });
@@ -160,15 +164,17 @@ class SignupForm extends React.Component {
   }
   onChange(e) {
     this.setState({
-      userData:{
+      userData: {
+        ...this.state.userData,
         [e.target.id]: e.target.value
       }
     });
   }
-  onDateChange(date){
+  onDateChange(e) {
+    e.preventDefault()
     this.setState({
-      date:date
-    })
+      [e.target.id]: e.target.value
+    });
   }
   onRadioChange(e) {
     this.setState({
@@ -176,7 +182,7 @@ class SignupForm extends React.Component {
     });
   }
   render() {
-    let selectedDate = new Date()
+    let selectedDate = new Date();
     const classes = this.props.classes;
     // Check for errors and display message
     const errorChecker = error => {
@@ -195,12 +201,12 @@ class SignupForm extends React.Component {
           </FormHelperText>
         );
       }
-      if (error.email.isTaken) {
+      if (error.emailIsTaken) {
         return (
           <FormHelperText error> The email is already taken!</FormHelperText>
         );
       }
-      if (error.email.isIncorrect) {
+      if (error.emailIsIncorrect) {
         return (
           <FormHelperText error>
             The email Format is not correct! Example format: myname@company.com
@@ -243,8 +249,8 @@ class SignupForm extends React.Component {
           />
           <TextField
             error={
-              this.state.error.email.isTaken ||
-              this.state.error.email.isIncorrect
+              this.state.error.emailIsTaken ||
+              this.state.error.emailIsIncorrect
             }
             fullWidth
             label="Email"
@@ -272,37 +278,42 @@ class SignupForm extends React.Component {
             type="password"
             id="password_confirm"
           />
-          <FormControl component="fieldset">
-            <FormLabel component="legend" error={this.state.error.gender}>
-              Gender:
-            </FormLabel>
-            <RadioGroup
-              arial-label="Gender:"
-              name="gender"
-              value={this.state.gender}
-              onChange={this.onRadioChange}
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-            </RadioGroup>
-            {this.state.error ? errorChecker(this.state.error) : null}
-          </FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div className="pickers">
-              <DatePicker
-                value={selectedDate}
-                onChange={this.onDateChange}
-              />
-              <TimePicker
-                value={selectedDate}
-                onChange={this.onDateChange}
-              />
-            </div>
-          </MuiPickersUtilsProvider>
+          <div>
+            <FormControl component="fieldset">
+              <FormLabel component="legend" error={this.state.error.gender}>
+                Gender:
+              </FormLabel>
+              <RadioGroup
+                arial-label="Gender:"
+                name="gender"
+                value={this.state.gender}
+                onChange={this.onRadioChange}
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <TextField
+            fullWidth
+            label="Date of birth:"
+            id="date"
+            defaultValue="2017-05-24"
+            name="date"
+            onChange={this.onDateChange}
+            type="date"
+            required
+          />
+          <Input type="submit" value="signup" onClick={this.onSubmit} />
+          {this.state.error ? errorChecker(this.state.error) : null}
         </form>
       </Card>
     );
