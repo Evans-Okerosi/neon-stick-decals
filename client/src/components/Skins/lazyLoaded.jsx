@@ -1,13 +1,14 @@
 import React from "react";
-import LazyLoad from "react-lazyload";
+import ImageCard from "./imageCard"
 import MainSkin from "./main.jsx";
 import PropTypes from "prop-types";
+import LazyLoad from 'react-lazyload'
 
 function LazyLoadedSkin(props){
     return (
       <LazyLoad height={200} once>
-        <MainSkin
-          uuid={props.uuid}
+        <ImageCard
+          image={props.image}
           height={props.height}
         />
       </LazyLoad>

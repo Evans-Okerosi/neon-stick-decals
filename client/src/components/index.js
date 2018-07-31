@@ -44,7 +44,7 @@ import LoginForm from "./Forms/login.jsx"
 
 import LazyLoadedSkin from "./Skins/lazyLoaded.jsx"
 import MainSkin from "./Skins/main.jsx"
-import GallerySkin from "./Skins/gallery.jsx"
+
 
 // ##############################
 // // // Buttons
@@ -74,7 +74,7 @@ export {
     //Forms
     ContactForm, UploadSkin, SignupForm, LoginForm,
     //Skin
-    LazyLoadedSkin, MainSkin, GallerySkin,
+    LazyLoadedSkin, MainSkin,
     //Buttons
     LikeButton, DrawerButton, MenuButton, Bttn,
     //Uploader

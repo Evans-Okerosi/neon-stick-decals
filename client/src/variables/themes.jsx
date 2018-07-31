@@ -15,6 +15,9 @@ export const theme = createMuiTheme({
     error: {
       main: "#d44d23"
     }
+  },
+  spacing:{
+    unit:8
   }
 });
 

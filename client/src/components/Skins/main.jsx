@@ -6,8 +6,6 @@ import{ Link } from "react-router-dom"
 import { withStyles } from "material-ui";
 import { imageResponsive } from "variables/styles.jsx";
 import { PropTypes } from "prop-types";
-import { Bttn } from "components"
-import { Redirect } from "react-router-dom"
 
 
 const styles = {
