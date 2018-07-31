@@ -49,7 +49,8 @@ router.post('/signup', (req, res) => {
     if (error.name === 'InvalidCredentialsError') {
       return res.status(409).json({
         success: false,
-        message: 'email or username already taken'
+        message: 'email or username already taken',
+        name:"EmailTaken"
       });
     }
     return res.status(500).json({

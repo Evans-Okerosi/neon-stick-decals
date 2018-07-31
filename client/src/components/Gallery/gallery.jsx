@@ -1,5 +1,5 @@
 import React from "react";
-import { GallerySkin } from "components";
+import { LazyLoadedSkin } from "components";
 import { Grid } from "material-ui";
 import PropTypes from "prop-types";
 
@@ -9,7 +9,7 @@ class Gallery extends React.Component {
     var display = images.map(image => {
       return (
         <Grid item xs={6} md={4}>
-          <GallerySkin uuid={image}
+          <LazyLoadedSkin image={image}
           />
         </Grid>
       );

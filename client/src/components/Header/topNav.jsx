@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Toolbar,
   Hidden,
@@ -8,9 +8,9 @@ import {
   IconButton,
   withStyles,
   Badge
-} from "material-ui";
-import { NavLink } from "react-router-dom";
-import { ShoppingCart, PersonPin } from "material-ui-icons";
+} from 'material-ui';
+import { NavLink } from 'react-router-dom';
+import { ShoppingCart, PersonPin } from 'material-ui-icons';
 
 class TopNav extends React.Component {
   constructor(props) {
@@ -44,28 +44,30 @@ class TopNav extends React.Component {
     const LinkToAddSkin = props => <NavLink to="/AddSkin" {...props} />;
     const LinkToLogin = props => <NavLink to="/Login" {...props} />;
     const LinkToSignup = props => <NavLink to="/Signup" {...props} />;
+    const LinkToSelectInterests = props => (
+      <NavLink to="/Interests" {...props} />
+    );
     //### The value displayed on top the cart Icon.
     const badgeContent = this.props.itemsOnCart.length;
     return (
       <AppBar>
         <Toolbar position="fixed">
           <Hidden xsDown>
-            <Button>{"Upload"}</Button>
-            <Button>{"Popular"} </Button>
-            <Button>{"Categories"}</Button>
+            <Button>{'Upload'}</Button>
+            <Button>{'Popular'} </Button>
+            <Button>{'Categories'}</Button>
+            <Button component={LinkToSelectInterests}> {'Interests'} </Button>
           </Hidden>
+          <Button component={LinkToSignup}>{'Sign Up'}</Button>
 
-          <div style={{ position: "relative", left: 800 }}>
+          <IconButton component={LinkToLogin}>
+            <PersonPin />
+          </IconButton>
+          <div style={{ position: 'relative', left: 800 }}>
             <IconButton component={LinkToCart}>
               <Badge badgeContent={badgeContent}>
                 <ShoppingCart />
               </Badge>
-            </IconButton>
-
-            <Button component={LinkToSignup}>{"Sign Up"}</Button>
-
-            <IconButton component={LinkToLogin}>
-              <PersonPin />
             </IconButton>
           </div>
         </Toolbar>
