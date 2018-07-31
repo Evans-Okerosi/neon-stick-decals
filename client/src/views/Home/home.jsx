@@ -25,11 +25,6 @@ class Home extends React.Component {
     };
   }
   render() {
-    if (!this.props.onOrderButtonClick) {
-      console.log(
-        'Please supply the onOrderButtonClick to gallery props to enable order button on skins'
-      );
-    }
     return (
       <div>
         <HomeSlider />

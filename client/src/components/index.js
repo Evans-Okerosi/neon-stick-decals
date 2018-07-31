@@ -51,7 +51,7 @@ import MainSkin from "./Skins/main.jsx"
 // #############################
 
 import { LikeButton, DrawerButton, MenuButton } from "./Buttons/buttons"
-import Bttn from "./Buttons/bttn.jsx"
+
 
 // ##############################
 // // // Uploader
@@ -76,7 +76,7 @@ export {
     //Skin
     LazyLoadedSkin, MainSkin,
     //Buttons
-    LikeButton, DrawerButton, MenuButton, Bttn,
+    LikeButton, DrawerButton, MenuButton,
     //Uploader
     UploadHandler
     

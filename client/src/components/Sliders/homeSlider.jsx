@@ -3,6 +3,10 @@ import Slide from "./slide.jsx";
 import {  withStyles } from "material-ui";
 
 const styles = {
+  root:{
+    display:'relative',
+    minWidth:750
+  }
 
 }
 
@@ -42,7 +46,7 @@ class HomeSlider extends React.Component {
   render() {
     const classes = this.props.classes
     return (
-        <div className={classes} >
+        <div className={classes.root} >
           <Slide inProp={this.setInProp(0)} />
         </div>
     );

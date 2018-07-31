@@ -8,13 +8,7 @@ import { theme } from "variables/themes.jsx";
 import appRoutes from "routes/app.jsx";
 
 //css and fonts
-import "assets/css/styles.css";
 import "typeface-roboto";
-/**
- * We can pass the onOrderButtonClick function down the react tree thanks
- * to react context.
- */
-import { OrderContext } from "variables/Context/order.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -95,7 +89,6 @@ class App extends React.Component {
         <CssBaseline />
         <MuiThemeProvider theme={theme}>
           <TopNav itemsOnCart={this.state.itemsOnFinalCart} />
-          <OrderContext.Provider value={this.onOrderButtonClick}>
             <Switch>
               {//### When a skin is clicked we want to enable a redirect to Cart
               getCartRedirect() ? (
@@ -128,7 +121,6 @@ class App extends React.Component {
                 })
               )}
             </Switch>
-          </OrderContext.Provider>
           <Footer />
         </MuiThemeProvider>
       </React.Fragment>

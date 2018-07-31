@@ -1,7 +1,6 @@
 import React from "react";
 import Transition from "react-transition-group/Transition";
 import PropTypes from "prop-types";
-import image from "assets/img/banner.jpg";
 import { withStyles, Typography, } from "material-ui";
 
 const styles = {
@@ -11,8 +10,7 @@ const styles = {
     height: "auto"
   },
   imgContainer: {
-    position: "absolute",
-    zIndex: -1
+    
   }
 };
 class Slide extends React.Component {
@@ -21,7 +19,8 @@ class Slide extends React.Component {
     const duration = 800;
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
-      opacity: 1
+      opacity: 1,
+      display:'relative'
     };
     const transitionStyles = {
       entering: { opacity: 0.4 },
@@ -35,7 +34,7 @@ class Slide extends React.Component {
             className="slide"
           >
             <div className={classes.imgContainer}>
-              <img src={image} alt=" slider " className={classes.img} />
+              <img src='https://source.unsplash.com/random/1926x968' alt=" slider " className={classes.img} />
             </div>
             <div className="overlay">
               <div className="info">

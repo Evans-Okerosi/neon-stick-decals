@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types"
 import cookie from "js-cookie"
-import { Grid, withStyles, Typography } from "material-ui";
+import { Grid, withStyles, Typography,Button } from "material-ui";
 import { LazyLoadedSkin } from "components";
-import { Bttn } from "components"
+
 
 class Cart extends React.Component {
   handleOder(uuid) {
@@ -41,8 +41,8 @@ class Cart extends React.Component {
             Awsomeness included with every single one
           </Typography>
           <div>
-            <Bttn type="fill" onClick={this.handleBuy} color="warning" >Order</Bttn>
-            <Bttn type="fill" onClick={this.handleBuy} color="primary" >Wish List</Bttn>
+            <Button type="fill" onClick={this.handleBuy} color="warning" >Order</Button>
+            <Button type="fill" onClick={this.handleBuy} color="primary" >Wish List</Button>
           </div>
         </Grid>
       </Grid>

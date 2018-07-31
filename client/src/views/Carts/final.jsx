@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import cookie from "js-cookie";
 import PropTypes from  "prop-types"
-import { Grid, withStyles } from "material-ui";
+import { Grid, withStyles, Button } from "material-ui";
 import { imageResponsive } from "variables/styles.jsx";
-import { Bttn } from "components";
+
 class FinalCart extends React.Component {
   constructor(props) {
     super(props);
@@ -38,26 +38,26 @@ class FinalCart extends React.Component {
               </Grid>
               <Grid item xs={8}>
                 Price: {item.price}
-                <Bttn
+                <Button
                   color="primary"
                   xs
                   onClick={this.props.handleRemove(item.uuid)}
                 >
                   Remove
-                </Bttn>
+                </Button>
               </Grid>
             </Grid>
           );
         })}
         <div>
-          <Bttn
+          <Button
             color="primary"
             xs
             onClick={this.props.onFinalCartClose()}
             type="warning"
           > 
           Check Out
-          </Bttn>
+          </Button>
         </div>
       </div>
     );
