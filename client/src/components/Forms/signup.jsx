@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import TimePicker from 'material-ui-pickers/TimePicker'
+import TimePicker from 'material-ui-pickers/TimePicker';
 import DatePicker from 'material-ui-pickers/DatePicker';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils'
+import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import { withRouter } from 'react-router-dom';
 import {
   Typography,
@@ -56,7 +56,7 @@ class SignupForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onRadioChange = this.onRadioChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this)
+    this.onDateChange = this.onDateChange.bind(this);
   }
   onSubmit(e) {
     e.preventDefault();
@@ -64,59 +64,75 @@ class SignupForm extends React.Component {
      * Confirm the validity of entered data
      */
 
-    // Check for empty fields
-    if (this.state.userData.password === '') {
-      this.setState({
-        error: {
-          password: true
-        }
-      });
-      return false;
-    }
+    // password
+    () => {
+      if (this.state.userData.password === '') {
+        this.setState({
+          error: {
+            ...this.state.error,
+            password: true
+          }
+        });
+      }
+    };
+
     // Username
-    if (this.state.userData.userName === '') {
-      this.state.setState({
-        error: {
-          userName: true
-        }
-      });
-      return false;
-    }
+    () => {
+      if (this.state.userData.userName === '') {
+        this.state.setState({
+          error: {
+            ...this.state.error,
+            userName: true
+          }
+        });
+      }
+    };
+
     // Confirm password
-    if (
-      this.state.userData.confirm_password !==
-      this.state.userData.confirm_password
-    ) {
-      this.setState({
-        error: {
-          confirm_password: true
-        }
-      });
-      return false;
-    }
+    () => {
+      if (
+        this.state.userData.confirm_password !==
+        this.state.userData.confirm_password
+      ) {
+        this.setState({
+          error: {
+            ...this.state.error,
+            confirm_password: true
+          }
+        });
+      }
+    };
+
     // date of birth
-    if (this.state.userData.dateOfBirth === '') {
-      this.setState({
-        error: {
-          dateOfBirth: true
-        }
-      });
-      return false;
-    }
+    () => {
+      if (this.state.userData.dateOfBirth === '') {
+        this.setState({
+          error: {
+            ...this.state.error,
+            dateOfBirth: true
+          }
+        });
+      }
+    };
+
     // gender
-    if (this.state.userData.gender === '') {
-      this.setState({
-        error: {
-          gender: true
-        }
-      });
-      return false;
-    }
+    () => {
+      if (this.state.userData.gender === '') {
+        this.setState({
+          error: {
+            ...this.state.error,
+            gender: true
+          }
+        });
+      }
+    };
+
     // Email
     if (!emailValidator(this.state.userData.email)) {
       this.setState({
         error: {
           email: {
+            ...this.state.error,
             isIncorrect: true
           }
         }
@@ -160,15 +176,16 @@ class SignupForm extends React.Component {
   }
   onChange(e) {
     this.setState({
-      userData:{
+      userData: {
+        ...this.state.userData,
         [e.target.id]: e.target.value
       }
     });
   }
-  onDateChange(date){
+  onDateChange(date) {
     this.setState({
-      date:date
-    })
+      date: date
+    });
   }
   onRadioChange(e) {
     this.setState({
@@ -176,7 +193,7 @@ class SignupForm extends React.Component {
     });
   }
   render() {
-    let selectedDate = new Date()
+    let selectedDate = new Date();
     const classes = this.props.classes;
     // Check for errors and display message
     const errorChecker = error => {
@@ -293,14 +310,8 @@ class SignupForm extends React.Component {
           </FormControl>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div className="pickers">
-              <DatePicker
-                value={selectedDate}
-                onChange={this.onDateChange}
-              />
-              <TimePicker
-                value={selectedDate}
-                onChange={this.onDateChange}
-              />
+              <DatePicker value={selectedDate} onChange={this.onDateChange} />
+              <TimePicker value={selectedDate} onChange={this.onDateChange} />
             </div>
           </MuiPickersUtilsProvider>
         </form>
