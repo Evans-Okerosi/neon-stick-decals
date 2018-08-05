@@ -51,6 +51,7 @@ import MainSkin from "./Skins/main.jsx"
 // #############################
 
 import { LikeButton, DrawerButton, MenuButton } from "./Buttons/buttons"
+import SelectSearch from './Buttons/selectSearch.jsx'
 
 
 // ##############################
@@ -59,25 +60,31 @@ import { LikeButton, DrawerButton, MenuButton } from "./Buttons/buttons"
 
 import UploadHandler from "./Uploader/uploadhandler.jsx"
 
+// ##############################
+// // // Search Bars
+// #############################
+import SearchDesigns from './SearchBars/Designs/searchDesign.jsx'
 
 export {
-    //Footer
+    // Footer
     Footer,
-    //TopNav
+    // TopNav
     TopNav,
-    //Gallery
+    // Gallery
     Gallery,
-    //slider
+    // slider
     HomeSlider,
-    //Contact
+    // Contact
     Contact,
-    //Forms
+    // Forms
     ContactForm, UploadSkin, SignupForm, LoginForm,
-    //Skin
+    // Skin
     LazyLoadedSkin, MainSkin,
-    //Buttons
-    LikeButton, DrawerButton, MenuButton,
-    //Uploader
-    UploadHandler
+    // Buttons
+    LikeButton, DrawerButton, MenuButton, SelectSearch,
+    // Uploader
+    UploadHandler,
+    // search bars
+    SearchDesigns
     
 };

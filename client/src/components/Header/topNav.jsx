@@ -36,27 +36,38 @@ class TopNav extends React.Component {
   }
   render() {
     /**
-     * enclose react router link components in functions so that they can work properly
+     * Enclose react router link components in functions so that they can work properly
      * with material ui button components.
      * for more info check material ui documentation https://material-ui.com/demos/buttons/
      */
     const LinkToCart = props => <NavLink to="/Cart" {...props} />;
     const LinkToAddSkin = props => <NavLink to="/AddSkin" {...props} />;
+    const LinkToDesigns = props => {
+      // pass url parameter
+      const path = `/Designs/${props.filter}`;
+      return <NavLink to={path} {...props} />;
+    };
     const LinkToLogin = props => <NavLink to="/Login" {...props} />;
     const LinkToSignup = props => <NavLink to="/Signup" {...props} />;
     const LinkToSelectInterests = props => (
       <NavLink to="/Interests" {...props} />
     );
-    //### The value displayed on top the cart Icon.
+    // The value displayed on top the cart Icon.
     const badgeContent = this.props.itemsOnCart.length;
     return (
       <AppBar>
         <Toolbar position="fixed">
           <Hidden xsDown>
             <Button>{'Upload'}</Button>
-            <Button>{'Popular'} </Button>
-            <Button>{'Categories'}</Button>
-            <Button component={LinkToSelectInterests}> {'Interests'} </Button>
+            <Button component={<LinkToDesigns filter="Popular" />}>
+              {'Popular'}
+            </Button>
+            <Button component={<LinkToDesigns filter="Cartegories" />}>
+              {'Categories'}
+            </Button>
+            <Button component={<LinkToSelectInterests />}>
+              {'Interests'}
+            </Button>
           </Hidden>
           <Button component={LinkToSignup}>{'Sign Up'}</Button>
 

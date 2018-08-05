@@ -15,12 +15,7 @@ class Home extends React.Component {
         'https://source.unsplash.com/random/640x427',
         'https://source.unsplash.com/random/640x427',
         'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427'
+        
       ]
     };
   }

@@ -4,24 +4,24 @@ import {
   withStyles,
   Card,
   CardMedia,
-  Button,
+  IconButton,
   Typography,
   Grid,
   CardContent
 } from 'material-ui';
-import { Dehaze } from 'material-ui-icons';
+import { AddShoppingCart } from 'material-ui-icons';
 import styles from './styles';
 
 function InterestCard(props) {
-  const { classes } = props;
+  const { classes, image, addToCart } = props;
   return (
     <Grid item className={classes.container}>
       <div>
         <Card>
           <CardMedia
             className={classes.image}
-            image={props.image}
-            title="Some Random Pic"
+            image={image.urls.small}
+            title={image.description}
           />
         </Card>
       </div>
@@ -29,17 +29,14 @@ function InterestCard(props) {
         <Card className={classes.textCard}>
           <CardContent>
             <Typography className={classes.text}>
-              this is something you would like. this is something you would like
-              . this is something you would like
+              {image.description} by {image.username}
             </Typography>
-            <Button
-              variant="extendedFab"
-              aria-label="Delete"
+            <IconButton onClick={addToCart}
+              aria-label="Add"
               className={classes.button}
             >
-              <Dehaze />
-              Add
-            </Button>
+              <AddShoppingCart />
+            </IconButton>
           </CardContent>
         </Card>
       </div>

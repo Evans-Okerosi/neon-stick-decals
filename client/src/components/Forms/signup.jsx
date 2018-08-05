@@ -1,10 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import TimePicker from 'material-ui-pickers/TimePicker';
-import DatePicker from 'material-ui-pickers/DatePicker';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import { withRouter } from 'react-router-dom';
 import {
   Typography,
@@ -65,7 +61,7 @@ class SignupForm extends React.Component {
      */
 
     // password
-    () => {
+
       if (this.state.userData.password === '') {
         this.setState({
           error: {
@@ -74,10 +70,8 @@ class SignupForm extends React.Component {
           }
         });
       }
-    };
 
     // Username
-    () => {
       if (this.state.userData.userName === '') {
         this.state.setState({
           error: {
@@ -86,12 +80,11 @@ class SignupForm extends React.Component {
           }
         });
       }
-    };
+
 
     // Confirm password
-    () => {
       if (
-        this.state.userData.confirm_password !==
+        this.state.userData.password !==
         this.state.userData.confirm_password
       ) {
         this.setState({
@@ -101,10 +94,8 @@ class SignupForm extends React.Component {
           }
         });
       }
-    };
 
     // date of birth
-    () => {
       if (this.state.userData.dateOfBirth === '') {
         this.setState({
           error: {
@@ -113,10 +104,8 @@ class SignupForm extends React.Component {
           }
         });
       }
-    };
 
     // gender
-    () => {
       if (this.state.userData.gender === '') {
         this.setState({
           error: {
@@ -125,7 +114,6 @@ class SignupForm extends React.Component {
           }
         });
       }
-    };
 
     // Email
     if (!emailValidator(this.state.userData.email)) {
@@ -193,7 +181,6 @@ class SignupForm extends React.Component {
     });
   }
   render() {
-    let selectedDate = new Date();
     const classes = this.props.classes;
     // Check for errors and display message
     const errorChecker = error => {
@@ -308,12 +295,6 @@ class SignupForm extends React.Component {
             </RadioGroup>
             {this.state.error ? errorChecker(this.state.error) : null}
           </FormControl>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div className="pickers">
-              <DatePicker value={selectedDate} onChange={this.onDateChange} />
-              <TimePicker value={selectedDate} onChange={this.onDateChange} />
-            </div>
-          </MuiPickersUtilsProvider>
         </form>
       </Card>
     );

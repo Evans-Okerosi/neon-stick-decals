@@ -6,9 +6,11 @@ import FinalCart from "views/Carts/final.jsx"
 import SignupPage from "views/auth/signup.jsx"
 import LoginPage from "views/auth/login.jsx"
 import Interests from 'views/Interests/Interests.jsx'
+import Designs from "views/Designs/designs.jsx"
 const appRoutes = [
+    { path:"/Designs:filter", component:Designs },
     { path: "/Home", component: Home },
-    {path: "/Interests", component: Interests},
+    { path: "/Interests", component: Interests},
     { path: "/AdminUpload", component: AdminUpload },
     { path: "/Cart", component: IntermediateCart },
     { path: "/FinalCart", component: FinalCart },

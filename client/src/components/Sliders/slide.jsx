@@ -10,7 +10,6 @@ const styles = {
     height: "auto"
   },
   imgContainer: {
-    
   }
 };
 class Slide extends React.Component {

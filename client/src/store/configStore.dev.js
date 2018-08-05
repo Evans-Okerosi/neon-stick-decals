@@ -14,7 +14,7 @@ const configureStore = preloadedState =>{
     )
     if(module.hot){
         //enable webpack hot module replacement for reducers
-        module.hot.accept('../reducers', ()=>{
+        module.hot.accept('reducers', ()=>{
             store.replaceReducer(rootReducer)
         })
     }
