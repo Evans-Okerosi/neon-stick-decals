@@ -106,7 +106,8 @@ export function requestImages(categories = "none",username) {
         })
         .then(
           res => {
-            res.json();
+            // update app state
+            dispatch(receiveImages(res.data));
           },
           // Do not use catch, because that will also catch
           // any errors in the dispatch and resulting render,
@@ -116,10 +117,7 @@ export function requestImages(categories = "none",username) {
             dispatch(fetchImagesError(error));
           }
         )
-        .then(json => {
-          // update app state
-          dispatch(receiveImages(json));
-        })
+       
     );
   };
 }

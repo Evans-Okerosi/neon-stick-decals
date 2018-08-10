@@ -22,7 +22,9 @@ module.exports = new PassportLocalStrategy(
     /**
      * find user by email address
      */
-    return User.findEmail({ email: userData.email }, (err, user) => {
+    return User.findUser(userData.email, (err, user) => {
+      const [userInfo] = user
+      const parsedInfo = JSON.parse(JSON.stringify(userInfo))
       if (err) {
         return done(err);
       }
@@ -35,9 +37,9 @@ module.exports = new PassportLocalStrategy(
       }
 
       // check if the hashed user password is equal to the one in the database
-      return User.compareHash(userData.password, (passwordErr, isMatch) => {
-        if (err) {
-          return done(err);
+      return User.compareHash(parsedInfo.email,password, (passwordErr, isMatch) => {
+        if (passwordErr) {
+          return done(passwordErr);
         }
 
         if (!isMatch) {

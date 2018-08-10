@@ -1,8 +1,8 @@
-import React from "react";
-import axios from "axios";
-import Authenticate from "utils/authenticate";
-import emailValidator from "utils/emailValidator";
-import PropTypes from "prop-types";
+import React from 'react';
+import axios from 'axios';
+import Authenticate from 'utils/authenticate';
+import emailValidator from 'utils/emailValidator';
+import PropTypes from 'prop-types';
 import {
   Input,
   Typography,
@@ -10,22 +10,22 @@ import {
   TextField,
   FormHelperText,
   withStyles
-} from "material-ui";
+} from 'material-ui';
 const styles = theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     height: 300,
-    marginTop: "1em",
+    marginTop: '1em',
     padding: 32
   },
   card: {
-    marginTop: "7em",
+    marginTop: '7em',
     minWidth: 500,
     background: theme.palette.primary.light,
     opacity: 0.9
   },
   typography: {
-    marginTop: "1em"
+    marginTop: '1em'
   }
 });
 
@@ -33,8 +33,8 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       error: {}
     };
     this.onChange = this.onChange.bind(this);
@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
     }
     // send credentials to the server
     axios
-      .post("/login", {
+      .post('/login', {
         email: this.state.email,
         password: this.state.password
       })
@@ -57,11 +57,13 @@ class LoginForm extends React.Component {
         Authenticate.authenticateUser(res.data.token);
       })
       .catch(error => {
-        console.log(error)
-        if (error.response.status === 401) {
-          this.setState({
-            error: { credentialsError: true }
-          });
+        console.log(error);
+        if (error.response) {
+          if (error.response.status === 401) {
+            this.setState({
+              error: { credentialsError: true }
+            });
+          }
         }
       });
   }
@@ -87,7 +89,7 @@ class LoginForm extends React.Component {
             Invalid email or password! Please try again.
           </FormHelperText>
         );
-      } else if(error.emailError){
+      } else if (error.emailError) {
         return (
           <FormHelperText error>
             Enter your email in the format: example@server.com!
@@ -127,7 +129,7 @@ class LoginForm extends React.Component {
             type="password"
             id="password"
           />
-          <Input type="submit" value="Login:" onClick={this.state.onSubmit}/>
+          <Input type="submit" value="Login:" onClick={this.state.onSubmit} />
           {this.state.error ? errorState(this.state.error) : null}
         </form>
       </Card>

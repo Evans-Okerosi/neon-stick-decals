@@ -6,7 +6,6 @@ import {
   Button,
   AppBar,
   IconButton,
-  withStyles,
   Badge
 } from 'material-ui';
 import { NavLink } from 'react-router-dom';
@@ -53,19 +52,19 @@ class TopNav extends React.Component {
       <NavLink to="/Interests" {...props} />
     );
     // The value displayed on top the cart Icon.
-    const badgeContent = this.props.itemsOnCart.length;
+    const badgeContent = 0
     return (
       <AppBar>
         <Toolbar position="fixed">
           <Hidden xsDown>
             <Button>{'Upload'}</Button>
-            <Button component={<LinkToDesigns filter="Popular" />}>
+            <Button component={LinkToDesigns}>
               {'Popular'}
             </Button>
-            <Button component={<LinkToDesigns filter="Cartegories" />}>
+            <Button component={LinkToDesigns }>
               {'Categories'}
             </Button>
-            <Button component={<LinkToSelectInterests />}>
+            <Button component={LinkToSelectInterests}>
               {'Interests'}
             </Button>
           </Hidden>

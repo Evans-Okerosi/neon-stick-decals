@@ -4,53 +4,54 @@ const user = require('../../models/user/user');
 
 const router = express.Router();
 
-router.post('/signup', (req, res) => {
+router.post('/', (req, res) => {
   // validate the form
 
-  const validForm = () => {
-    let { email, userName, name, password, dateOfBirth, gender } = req.data;
+  function validForm() {
+    // eslint-ignore-next-line
+    let { email, userName, name, password,gender } = req.body;
+    const {date} = req.body
     // remove spaces from both ends of string
-    email = email.toLowerCase().trim()
+    email = email.toLowerCase().trim();
     userName = userName.toLowerCase().trim();
-    name = name.trim().toLowerCase().trim();
+    name = name.toLowerCase().trim();
     password = password.trim();
-    dateOfBirth = dateOfBirth.trim();
     gender = gender.toLowerCase().trim();
 
-    if (!validator.isEmail(email)) return false;
-    if (!validator.toDate(dateOfBirth)) return false;
+    if (!validator.isEmail(email)) return null;
 
     // Ensure input is alphanumeric. N/B date is not included.
-    const alphanumeric = [email, userName, password, gender, name].filter(
+    const alphanumeric = [ userName, password, gender, name].filter(
       // return true for each element that is not alphanumeric
       text => !validator.isAlphanumeric(text)
     );
-    if (alphanumeric.length !== 0) return false;
+    if (alphanumeric.length !== 0) return null;
 
-    return { email, name, password, dateOfBirth, gender };
-  };
-
-  if (!validForm) {
+    return { email, name, password, date, gender,userName };
+  }
+  const validDetails = validForm()
+ 
+  if (validForm()===null) {
     return res.status(400).json({
       success: false,
       message: 'check the form for errors and try again.'
     });
   }
-  const newUser = new user({validForm});
+
+  const newUser = new user(validDetails);
   try {
     newUser.save();
     // on success
     res.status(200).json({
-        sucess:true,
-        message: 'user registration successful'
-    })
-
+      sucess: true,
+      message: 'user registration successful'
+    });
   } catch (error) {
     if (error.name === 'InvalidCredentialsError') {
       return res.status(409).json({
         success: false,
         message: 'email or username already taken',
-        name:"EmailTaken"
+        name: 'EmailTaken'
       });
     }
     return res.status(500).json({
@@ -58,7 +59,6 @@ router.post('/signup', (req, res) => {
       message: ' could not process the form'
     });
   }
-
 });
 
 module.exports = router;

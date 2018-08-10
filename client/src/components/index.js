@@ -51,7 +51,7 @@ import MainSkin from "./Skins/main.jsx"
 // #############################
 
 import { LikeButton, DrawerButton, MenuButton } from "./Buttons/buttons"
-import SelectSearch from './Buttons/selectSearch.jsx'
+
 
 
 // ##############################
@@ -81,7 +81,7 @@ export {
     // Skin
     LazyLoadedSkin, MainSkin,
     // Buttons
-    LikeButton, DrawerButton, MenuButton, SelectSearch,
+    LikeButton, DrawerButton, MenuButton, 
     // Uploader
     UploadHandler,
     // search bars

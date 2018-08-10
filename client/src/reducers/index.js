@@ -5,7 +5,6 @@ import {
   FETCH_IMAGES,
   INVALIDATE_IMAGES,
   FETCH_IMAGES_ERROR,
-  FETCH_IMAGES_SUCCESS,
   SELECT_CATEGORY,
   ADD_TO_CART,
   BUY,
@@ -28,12 +27,13 @@ function selectCategory(state = { category: 'all' }, action) {
 function images(
   state = {
     isFetching: false,
-    images: [],
+    images: null,
     category: 'all',
     currentPageNo: 1,
     imagesUserViewd: [],
     cart: [],
-    bought: []
+    bought: [],
+    fetchImagesError: {}
   },
   action
 ) {
@@ -59,6 +59,10 @@ function images(
     case VIEW_IMAGE:
       return Object.assign({}, state, {
         imagesUserViewed: [...state.imagesUserViewed, action.image]
+      });
+    case FETCH_IMAGES_ERROR:
+      return Object.assign({}, state, {
+        fetchImagesError: action.error
       });
     default:
       return state;

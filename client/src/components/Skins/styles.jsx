@@ -9,12 +9,23 @@
         paddingTop: '56.25%',
     },
     text:{
-       
+      
     },
     textCard:{
         position: "absolute",
-        top: "70%",
-        left:20
+        top: "80%",
+        left:20,
+        width:'90%',
+        paddingBottom:0,
+        marginBottom:0
+    },
+    cardContent:{
+        paddingBottom:8
+    },
+    button:{
+        position: 'absolute',
+        right:0,
+        bottom:'10%'
     }
 }
 export const SelectInterestsStyles = {
@@ -22,6 +33,7 @@ export const SelectInterestsStyles = {
         marginTop:"3em"
     }
 }
+
 
 
 

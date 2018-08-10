@@ -1,25 +1,37 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Typography, Grid } from 'material-ui';
+import { connect } from 'react-redux';
 import { Gallery, HomeSlider, ContactForm } from 'components';
+import { requestImages } from 'actions';
 
+const mapStateToProps = state => ({
+  images: state.images.images,
+  isFetching: state.isFetching
+});
+const mapDispatchToProps = dispatch => ({
+ 
+});
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      galleryImages: [
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        'https://source.unsplash.com/random/640x427',
-        
-      ]
-    };
+  componentDidMount(){
+   
   }
   render() {
+    const {images, isFetching} = this.props
+    if(isFetching){
+      return(
+        <div style={{
+          background:'grey',
+          width:'100%',
+          height:'100%'
+        }} >
+        <Typography align="center" >
+          loading
+        </Typography>
+
+        </div>
+      )
+    }
     return (
       <div>
         <HomeSlider />
@@ -58,7 +70,7 @@ class Home extends React.Component {
             </Typography>
           </Grid>
         </Grid>
-        <Gallery images={this.state.galleryImages} />
+        <Gallery images={images} numberOfItems={6}/>
         <Grid container>
           <Grid item xs={12} sm={6}>
             <ContactForm />
@@ -72,7 +84,11 @@ class Home extends React.Component {
   }
 }
 Home.propTypes = {
-  onOrderButtonClick: PropTypes.func
+  getImages: PropTypes.func.isRequired,
+  images: PropTypes.object.isRequired
 };
 
-export default Home;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

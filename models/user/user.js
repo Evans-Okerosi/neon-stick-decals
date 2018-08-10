@@ -16,7 +16,8 @@ class user {
     this.password = info.password;
     this.email = info.email;
     this.gender = info.gender;
-    this.dateOfBirth = info.dateOfBirth;
+    this.date = info.date;
+    this.hash = null;
   }
   save() {
     //TODO: add support for id
@@ -24,53 +25,37 @@ class user {
      * save the new user to database
      * throw error if the user name, id or email is already in use
      * the operation is successful if no error is returned.
-     */
+     */ // generate hash
     if (this.username) {
-      if (this.findUserName(this.userName)) {
-        const error = Error('User Name already exists!');
-        error.name = 'TakenUserNameError';
-        throw error;
-      }
-    }
-    if (this.finduser(this.email)) {
-      const error = new Error('Email already exists!');
-      error.name = 'TakenEmailError';
-      throw error;
-    }
-    pool.getConnection((error, connection) => {
-      if (error) throw error;
-
-      const sql = `INSERT INTO users(user_name,name,email,password)
-      VALUES(${mysql.escape(this.userName)},${mysql.escape(
-        this.name
-      )},${mysql.escape(this.email)}, ${mysql.escape(
-        this.generateHash(10,(err, hash) => {
-          if (err) throw err;
-          return hash;
-        })
-      )}`;
-
-      // the result parameter is ignored in the callback bellow since its value is not used.
-      connection.query(sql, (err) => {
-        connection.release();
+      this.findUserName(this.userName, (err, usr) => {
         if (err) throw err;
+        if (usr) {
+          const error = new Error('user exists');
+          error.name = 'EmailIsTakenError';
+          throw error;
+        }
+      });
+    }
+    const saltRounds = 10;
+    bcrypt.hash(this.password, saltRounds, (error, hash) => {
+      if (error) throw error;
+      pool.getConnection((conErr, connection) => {
+        if (conErr) throw conErr;
+
+        const sql = `INSERT INTO users(user_name,name,email,password,gender,date_of_birth)
+        VALUES(${mysql.escape(this.userName)},${mysql.escape(
+          this.name
+        )},${mysql.escape(this.email)}, ${mysql.escape(hash)},${mysql.escape(this.gender)},${this.date})`;
+
+        // the result parameter is ignored in the callback bellow since its value is not used.
+        connection.query(sql, (err) => {
+          connection.release();
+          if (err) throw err;
+        });
       });
     });
   }
 
-  generateHash(saltRounds = 10, callback) {
-    //TODO: something
-    /**
-     * generate hash from password and salt
-     * if u call this method without instatianting user it will generate an error.
-     * the hashing function is only availabe when crating new users
-     */
-    bcrypt.hash(this.password, saltRounds, (error, hash) => {
-      if (error) return callback(error);
-
-      return callback(null, hash);
-    });
-  }
   static compareHash(email, password, callback) {
     if (!email || email === '') {
       const error = new Error('Email cannot be empty!');
@@ -88,12 +73,14 @@ class user {
      */
     pool.getConnection((error, connection) => {
       if (error) return callback(error);
-      const sql = `SELECT * from users WHERE email = ${email}`;
+      const sql = `SELECT password from users WHERE email = '${email}'`;
       connection.query(sql, (err, result) => {
+        const parsedResult = JSON.parse(JSON.stringify(result))
+        console.log(parsedResult)
         connection.release();
         if (err) return callback(err);
-        //hash
-        const hash = result.password;
+        // hash
+        const hash = parsedResult[0].password;
         bcrypt.compare(password, hash, (hashErr, res) => {
           if (err) return callback(hashErr);
 
@@ -111,7 +98,7 @@ class user {
         connection.release();
         if (err) return callback(err);
 
-        if (user > 0) {
+        if (user.length > 0) {
           return callback(null, userData);
         }
         return callback(null, null);
@@ -134,4 +121,4 @@ class user {
     });
   }
 }
-module.exports = { user };
+module.exports = user;

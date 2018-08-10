@@ -4,7 +4,7 @@ import {
   withStyles,
   Card,
   CardMedia,
-  IconButton,
+  Button,
   Typography,
   Grid,
   CardContent
@@ -12,8 +12,25 @@ import {
 import { AddShoppingCart } from 'material-ui-icons';
 import styles from './styles';
 
+const getDescription = description => {
+  if (!description) return 'Photo by';
+  return description;
+};
 function InterestCard(props) {
   const { classes, image, addToCart } = props;
+  // render place holder if image object is not available
+  if (!image) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: 300
+        }}
+      >
+        <img src="http://placeholder.pics/svg/300x200" alt="" />
+      </div>
+    );
+  }
   return (
     <Grid item className={classes.container}>
       <div>
@@ -26,17 +43,22 @@ function InterestCard(props) {
         </Card>
       </div>
       <div>
-        <Card className={classes.textCard}>
-          <CardContent>
-            <Typography className={classes.text}>
-              {image.description} by {image.username}
+        <Card variant="raised" className={classes.textCard}>
+          <CardContent className={classes.CardContent}>
+            <Typography component="span" className={classes.text}>
+              {getDescription(image.description)} by {image.user.name}
             </Typography>
-            <IconButton onClick={addToCart}
-              aria-label="Add"
+            <Button
               className={classes.button}
+              onClick={addToCart}
+              size="small"
+              variant="extendedFab"
+              aria-label="Delete"
+              color="primary"
             >
-              <AddShoppingCart />
-            </IconButton>
+              <span>Add</span>
+              <AddShoppingCart className={classes.extendedIcon} />
+            </Button>
           </CardContent>
         </Card>
       </div>

@@ -6,6 +6,7 @@ import {
   Typography,
   withStyles,
   Card,
+  Input,
   TextField,
   Radio,
   RadioGroup,
@@ -27,32 +28,30 @@ class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
       userData: {
-        date: new Date(),
-        gender: 'male',
+        date: '',
+        gender: '',
         name: '',
         email: '',
         userName: '',
-        password: ''
+        password: '',
+        confirm_password: ''
       },
       error: {
-        email: {
-          isTaken: false,
-          isIncorrect: false
-        },
+        emailIsTaken: false,
+        emailIsIncorrect: false,
+        date: false,
         network: false,
         userName: false,
         gender: false,
-        dateOfBirth: false,
         password: false,
-        password_confirm: false
+        confirm_password: false,
+        name: false
       }
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onRadioChange = this.onRadioChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
   }
   onSubmit(e) {
     e.preventDefault();
@@ -61,72 +60,85 @@ class SignupForm extends React.Component {
      */
 
     // password
-
-      if (this.state.userData.password === '') {
-        this.setState({
-          error: {
-            ...this.state.error,
-            password: true
-          }
-        });
-      }
-
+    if (this.state.userData.password === '') {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          password: true
+        }
+      }));
+    }
     // Username
-      if (this.state.userData.userName === '') {
-        this.state.setState({
-          error: {
-            ...this.state.error,
-            userName: true
-          }
-        });
-      }
-
-
-    // Confirm password
-      if (
-        this.state.userData.password !==
-        this.state.userData.confirm_password
-      ) {
-        this.setState({
-          error: {
-            ...this.state.error,
-            confirm_password: true
-          }
-        });
-      }
+    if (this.state.userData.userName === '') {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          userName: true
+        }
+      }));
+    }
+    // Confirm password. false always
+    /*if (this.state.userData.password !== this.state.userData.confirm_password) {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          confirm_password: true
+        }
+      }));
+    }*/
 
     // date of birth
-      if (this.state.userData.dateOfBirth === '') {
-        this.setState({
-          error: {
-            ...this.state.error,
-            dateOfBirth: true
-          }
-        });
-      }
+    if (this.state.userData.date === '') {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          date: true
+        }
+      }));
+    }
 
     // gender
-      if (this.state.userData.gender === '') {
-        this.setState({
-          error: {
-            ...this.state.error,
-            gender: true
-          }
-        });
-      }
+    if (this.state.userData.gender === '') {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          gender: true
+        }
+      }));
+    }
 
     // Email
     if (!emailValidator(this.state.userData.email)) {
-      this.setState({
+      this.setState(prevState => ({
         error: {
-          email: {
-            ...this.state.error,
-            isIncorrect: true
-          }
+          ...prevState.error,
+          emailIsIncorrect: true
         }
-      });
-      return false;
+      }));
     }
+    // name
+    if (this.state.userData.name === '') {
+      this.setState(prevState => ({
+        error: {
+          ...prevState.error,
+          name: true
+        }
+      }));
+    }
+    this.setState({
+      validationFinished: true
+    });
+  }
+  componentDidUpdate() {
+    // esnsure data is sent only after validation is complete
+    if (this.state.validationFinished) this.sendData(this.state);
+  }
+  sendData(state) {
+    // return if any errors axist
+    const shouldAbort = Object.values(state.error).indexOf(true);
+    if (shouldAbort !== -1) return;
+    alert(shouldAbort);
+
     // send data to server
     axios
       .post('/signup', this.state.userData)
@@ -142,22 +154,24 @@ class SignupForm extends React.Component {
             }
           });
           // Check the error type sent by server
-        } else if (error.response.status === 409) {
-          if (error.responce.data.ErrorName === 'EmailTakenError') {
-            this.setState({
-              error: {
-                email: {
-                  isTaken: true
+        } else if (error.response) {
+          if (error.response.status === 409) {
+            if (error.responce.data.ErrorName === 'EmailTakenError') {
+              this.setState(prevState => ({
+                error: {
+                  ...prevState.error,
+                  emailIsTaken: true
                 }
-              }
-            });
-          }
-          if (error.response.data.ErrorName === 'TakenUserNameError') {
-            this.setState({
-              error: {
-                userName: true
-              }
-            });
+              }));
+            }
+            if (error.response.data.ErrorName === 'TakenUserNameError') {
+              this.setState(prevState => ({
+                error: {
+                  ...prevState.error,
+                  userName: true
+                }
+              }));
+            }
           }
         }
       });
@@ -170,14 +184,13 @@ class SignupForm extends React.Component {
       }
     });
   }
-  onDateChange(date) {
-    this.setState({
-      date: date
-    });
-  }
+
   onRadioChange(e) {
     this.setState({
-      gender: e.target.value
+      userData: {
+        ...this.state.userData,
+        gender: e.target.value
+      }
     });
   }
   render() {
@@ -199,12 +212,12 @@ class SignupForm extends React.Component {
           </FormHelperText>
         );
       }
-      if (error.email.isTaken) {
+      if (error.emailIsTaken) {
         return (
           <FormHelperText error> The email is already taken!</FormHelperText>
         );
       }
-      if (error.email.isIncorrect) {
+      if (error.emailIsIncorrect) {
         return (
           <FormHelperText error>
             The email Format is not correct! Example format: myname@company.com
@@ -247,8 +260,7 @@ class SignupForm extends React.Component {
           />
           <TextField
             error={
-              this.state.error.email.isTaken ||
-              this.state.error.email.isIncorrect
+              this.state.error.emailIsTaken || this.state.error.emailIsIncorrect
             }
             fullWidth
             label="Email"
@@ -283,7 +295,7 @@ class SignupForm extends React.Component {
             <RadioGroup
               arial-label="Gender:"
               name="gender"
-              value={this.state.gender}
+              value={this.state.userData.gender}
               onChange={this.onRadioChange}
             >
               <FormControlLabel
@@ -293,8 +305,22 @@ class SignupForm extends React.Component {
               />
               <FormControlLabel value="male" control={<Radio />} label="Male" />
             </RadioGroup>
-            {this.state.error ? errorChecker(this.state.error) : null}
           </FormControl>
+          <div>
+            <TextField
+              type="date"
+              onChange={this.onChange}
+              label="Date Of Birth:"
+              required
+              defaultValue="2017-07-01"
+              id="date"
+              error={this.state.error.date}
+            />
+          </div>
+          <div>
+            <Input value="Submit:" type="submit" onClick={this.onSubmit} />
+          </div>
+          <div>{this.state.error ? errorChecker(this.state.error) : null}</div>
         </form>
       </Card>
     );

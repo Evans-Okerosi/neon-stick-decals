@@ -1,18 +1,24 @@
 const express = require('express');
 //const validator = require('validator');
 const passport = require('passport');
+const validator = require('validator');
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
-  const validationResult = {
-    success: true
+router.post('/', (req, res, next) => {
+  const validationResult = () => {
+    const { email, password } = req.body;
+    if (!validator.isEmail(email)) return null;
+    return {
+      email: email.trim(),
+      password: password.trim()
+    };
   };
-  if (!validationResult.success) {
+  
+  if (!validationResult()) {
     return res.status(400).json({
       success: false,
-      message: validationResult.message,
-      errors: validationResult.errors
+      message: 'Check form for errors',
     });
   }
 

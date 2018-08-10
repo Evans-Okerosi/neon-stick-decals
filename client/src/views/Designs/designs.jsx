@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, withStyles } from 'material-ui';
-import { SelectSearch, SearchDesigns, LazyLoadedSkin } from 'components';
+import {  SearchDesigns, LazyLoadedSkin } from 'components';
 import {styles} from './styles'
 import { } from 'actions'
 
@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => ({
   images: state.images
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getImages:dispatch()
+  
 });
 class Designs extends React.Component {
   constructor(props) {
@@ -38,7 +38,6 @@ class Designs extends React.Component {
     return (
       <div>
         <SearchDesigns />
-        <SelectSearch />
         <Grid container>
           {images.map(image => {
             // the height should be the same as the one defined in css

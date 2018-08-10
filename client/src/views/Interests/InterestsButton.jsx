@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonBase, Typography, withStyles, Badge } from 'material-ui';
+import { ButtonBase,  withStyles,  } from 'material-ui';
 import SVGTick from './svgTick';
 import { interestButtonStyle } from './styles';
 

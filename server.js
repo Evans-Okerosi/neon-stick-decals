@@ -1,5 +1,6 @@
 // eslint-disable-line
-require('dotenv').load(); // load environment config
+const path = require('path')
+require('dotenv').config({path: path.resolve(__dirname, '.env' )}); // load environment config
 
 // eslint-disable-next-line
 const PORT = process.env.PORT || 8080; // set port
@@ -25,19 +26,20 @@ app.use(logger('tiny'));
 
 // static files directories
 app.use(express.static(`${__dirname}/client/public`));
-app.use(passport.initialize());
 
 // passport strategies
 const localLoginStrategy = require('./passport/local-login');
 
 passport.use('local-login', localLoginStrategy);
+app.use(passport.initialize());
 
 // ROUTES
-const userInfo = require('./controllers/user/info');
-
-app.use('/user', userInfo);
+app.use('/signup',require('./controllers/user/signup'))
+app.use('/login', require('./controllers/user/login'))
+app.use('/user',require('./controllers/user/info'))
 
 app.get('/', () => {});
+
 // skins
 app.use('/skin', skin);
 // static files route

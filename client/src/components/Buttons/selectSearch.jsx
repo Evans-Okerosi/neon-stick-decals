@@ -27,15 +27,13 @@ function SelectSearch(props) {
   return (
     <ButtonBase
       focusRipple
-      className={classes.root}
-      focusVisibleClassName={classes.focusVisible}
       style={{
         background: `url(${image})`
       }}
     >
       <span className={classes.overlay} />
       <Typography component="span" className={classes.title}>
-        {title}
+       {title}
       </Typography>
     </ButtonBase>
   );
@@ -48,4 +46,4 @@ SelectSearch.PropTypes = {
 
 }
 
-export default withStyles(styles)(SelectSearch);
+;
