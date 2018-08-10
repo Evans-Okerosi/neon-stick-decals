@@ -13,7 +13,8 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  Input
 } from 'material-ui';
 import emailValidator from 'utils/emailValidator';
 const styles = theme => ({
@@ -150,6 +151,7 @@ class SignupForm extends React.Component {
         if (error.network) {
           this.setState({
             error: {
+              ...this.state.error,
               network: true
             }
           });
@@ -184,7 +186,6 @@ class SignupForm extends React.Component {
       }
     });
   }
-
   onRadioChange(e) {
     this.setState({
       userData: {
