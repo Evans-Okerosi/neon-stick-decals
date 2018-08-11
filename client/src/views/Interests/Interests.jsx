@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Grid, Typography} from 'material-ui';
+import { withStyles, Grid, Typography } from 'material-ui';
 import { interestsStyle } from './styles';
 import InterestsButton from './InterestsButton';
 
@@ -61,8 +61,15 @@ function Interests(props) {
   const { classes } = props;
 
   return (
-    <Grid className={classes.root} container justify="center" alignItems="center">
-      {images.map(image => <InterestsButton image={image} />)}
+    <Grid
+      className={classes.root}
+      container
+      justify="center"
+      alignItems="center"
+    >
+      {images.map(image => (
+        <InterestsButton image={image} />
+      ))}
       <Typography>My name</Typography>
     </Grid>
   );

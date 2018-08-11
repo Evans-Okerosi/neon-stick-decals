@@ -76,7 +76,6 @@ class user {
       const sql = `SELECT password from users WHERE email = '${email}'`;
       connection.query(sql, (err, result) => {
         const parsedResult = JSON.parse(JSON.stringify(result))
-        console.log(parsedResult)
         connection.release();
         if (err) return callback(err);
         // hash

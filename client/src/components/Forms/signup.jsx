@@ -14,7 +14,6 @@ import {
   FormControlLabel,
   FormLabel,
   FormHelperText,
-  Input
 } from 'material-ui';
 import emailValidator from 'utils/emailValidator';
 const styles = theme => ({
