@@ -1,20 +1,20 @@
 import React from 'react';
 import { Chip, Avatar, withStyles } from 'material-ui';
 
-const styles = theme=>({
-    chip:{
-        margin:theme.spacing.unit
-    }
-})
+const styles = theme => ({
+  chip: {
+    margin: theme.spacing.unit
+  }
+});
 function ActiveChip(props) {
-  const { classes, avaterImage, handleDelete } = props;
+  const { classes, handleDelete, term } = props;
   return (
     <Chip
-      avatar={<Avatar src={avaterImage} />}
+      label={term}
       onDelete={handleDelete}
       className={classes.avatar}
     />
   );
 }
 
-export default withStyles(styles)(ActiveChip)
+export default withStyles(styles)(ActiveChip);

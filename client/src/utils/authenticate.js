@@ -2,7 +2,7 @@ class Authenticate{
     static authenticateUser(token){
         localStorage.setItem('token',token)
     }
-    static checkAuthentication(){
+    static checkAuth(){
         if(!localStorage.getItem('token')){
             return null
         }

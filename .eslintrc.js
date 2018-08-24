@@ -9,6 +9,7 @@ module.exports = {
      *The following are the undesired non styling rules. 
      */
     "consistent-return": ['off'],
+    "new-line-after-import":['off'],
 
     
     // enforce line breaks after opening and before closing array brackets

@@ -5,7 +5,7 @@ import {  withStyles } from "material-ui";
 const styles = {
   root:{
     display:'relative',
-    minWidth:750
+    minWidth:1900,
   }
 
 }

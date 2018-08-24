@@ -9,6 +9,7 @@ export const interestButtonStyle = theme => ({
       width: '100% !important', // Overrides inline-style
       height: 100,
     },
+    boxShadow: theme.shadows[6]
     
   },
   overlay:{
@@ -38,11 +39,16 @@ export const interestButtonStyle = theme => ({
         borderBottom:'2px solid white',
         width:'40%'
       }
-  }
+  },
+ 
 })
 
 export const interestsStyle = theme =>({
   root:{
     marginTop:'4em'
+  },
+  saveButton:{
+    width:'30%',
+    height:200
   }
 })

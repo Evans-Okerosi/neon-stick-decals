@@ -1,47 +1,90 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, withStyles } from 'material-ui';
-import {  SearchDesigns, LazyLoadedSkin } from 'components';
-import {styles} from './styles'
-import { } from 'actions'
+import { Grid, withStyles, Typography } from 'material-ui';
+import { SearchDesigns, LazyLoadedSkin } from 'components';
+import { styles } from './styles';
+import { requestImages, selectCategory } from 'actions';
 
 const mapStateToProps = (state, ownProps) => ({
-  images: state.images
+  images: state.images.images,
+  category: state.category
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  
+  searchImages: search => dispatch(requestImages(search)),
+  selectCategory: category => dispatch(selectCategory(category))
 });
 class Designs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchTerms: ['ocean', 'earth'],
-      searchFiled: ''
+      searchField: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.searchButtonClick = this.searchButtonClick.bind(this);
   }
-  componentDidMount(){
-
-  }
-  onChange(e) {
+  componentDidMount() {}
+  handleChange(e) {
     this.setState({
-      searchFiled: e.target.value
+      searchField: e.target.value
     });
   }
   searchButtonClick() {
-    this.setState(prevState => ({
-      searchTerms: prevState.searchTerms.push(prevState.searchFiled),
-      searchFiled: ''
-    }));
+    const { searchImages, selectCategory, category } = this.props;
+    selectCategory(this.state.searchField);
+    searchImages(this.state.searchField);
   }
   render() {
-    const { images } = this.props;
+    const { images, classes } = this.props;
+    if (!images) {
+      return (
+        <Grid
+          alignItems="center"
+          justify="center"
+          container
+          className={classes.preloader}
+        >
+          <Typography variant="display3">Loading...</Typography>
+        </Grid>
+      );
+    }
+    // when we are getting results from a search
+    if (images.results) {
+      return (
+        <div>
+          <SearchDesigns
+            searchTerms={this.state.searchTerms}
+            handleChange={this.handleChange}
+            onButtonClick={this.searchButtonClick}
+          />
+          <Grid justify="center" spacing={16} container>
+            {images.results.map(image => {
+              // the height should be the same as the one defined in the object styles
+              return (
+                <Grid key={image.id} item>
+                  <LazyLoadedSkin image={image} height={200} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </div>
+      );
+    }
     return (
       <div>
-        <SearchDesigns />
-        <Grid container>
+        <SearchDesigns
+          searchTerms={this.state.searchTerms}
+          handleChange={this.handleChange}
+          onButtonClick={this.searchButtonClick}
+        />
+        <Grid justify="center" spacing={16} container>
           {images.map(image => {
-            // the height should be the same as the one defined in css
-            return <LazyLoadedSkin image={image} height={200} />;
+            // the height should be the same as the one defined in the object styles
+            return (
+              <Grid key={image.id} item>
+                <LazyLoadedSkin image={image} height={200} />
+              </Grid>
+            );
           })}
         </Grid>
       </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { CssBaseline, MuiThemeProvider } from 'material-ui';
+import { CssBaseline, MuiThemeProvider, withStyles } from 'material-ui';
 import {connect} from 'react-redux'
 import { TopNav, Footer } from 'components';
 import { theme } from 'variables/themes.jsx';
 import appRoutes from 'routes/app.jsx';
 import { requestImages } from 'actions';
-
+import {styles} from './styles'
 
 //css and fonts
 import 'typeface-roboto';
@@ -28,8 +28,9 @@ class App extends React.Component {
    this.props.getImages()
   }
   render() {
+    const {classes} = this.props
     return (
-      <React.Fragment>
+      <div className={classes.root}>
         <CssBaseline />
         <MuiThemeProvider theme={theme}>
           <TopNav />
@@ -57,7 +58,7 @@ class App extends React.Component {
           </Switch>
           <Footer />
         </MuiThemeProvider>
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -69,5 +70,5 @@ App.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(withStyles(styles)(App));
 

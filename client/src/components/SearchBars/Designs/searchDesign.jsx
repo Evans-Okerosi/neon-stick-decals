@@ -5,18 +5,23 @@ import { Input, Grid, withStyles, Paper, IconButton } from 'material-ui';
 import { Search } from 'material-ui-icons';
 import { styles } from './styles';
 function SearchDesigns(props) {
-  const { classes, handleDelete, onChange, onButtonClick } = props;
+  const { classes, handleDelete, handleChange, onButtonClick, searchTerms } = props;
   return (
     <div className={classes.root}>
-      <Grid xs={12} md={8} wrap="no-wrap" className={classes.searchBar}>
+      <Grid md={10} wrap="no-wrap" className={classes.searchBar}>
         <Paper className={classes.paper}>
-          <div>
-            {this.state.searchTerms.map(term => {
-              return <ActiveChip handleDelete={handleDelete} avatarImage="" />;
-            })}
+          <div >
+            {searchTerms
+              ? searchTerms.map(term => {
+                  return (
+                    <ActiveChip term={term} handleDelete={handleDelete} avatarImage=""/>
+                    
+                  );
+                })
+              : null}
           </div>
-          <div>
-            <Input fullWidth onChange={onChange} />
+          <div className={classes.inputContainer} >
+            <Input className={classes.input} disableUnderline onChange={handleChange} />
             <IconButton
               onClick={onButtonClick}
               variant="fab"

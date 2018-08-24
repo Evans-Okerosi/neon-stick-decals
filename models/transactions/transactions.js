@@ -1,16 +1,18 @@
-const mysql = require("mysql");
-const colors = require('colors/safe')
+const mysql = require('mysql');
+const pool = require('../connectionPool');
 
-module.exports = {
-  addTransaction: function(userId, amount, mpesaTransactionId) {
-    const sql = `INSERT INTO transactions(user_id,amount,mpesa_transaction_id)
-        VALUES(${mysql.escape(userId)},${mysql.escape(amount)},${mysql.escape(
-      mpesaTransactionId
-    )} `;
-
-    con.query(sql, function(err, result) {
+class Trasnsactions {
+  static save(data) {
+    pool.getConnection((err, connection) => {
       if (err) throw err;
-      console.log("transaction added successfully");
+      const sql = `INSERT INTO transactions(mpesa_id,amount,phone_no,items) 
+      VALUES(${data.mpesaId},${data.amount},${data.phone},${data.items})`;
+      connection.query(sql, (error) => {
+        connection.release();
+        if (error) throw error;
+      });
     });
   }
-};
+}
+
+export default Trasnsactions;

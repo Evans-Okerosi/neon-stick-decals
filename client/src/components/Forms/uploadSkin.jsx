@@ -1,15 +1,15 @@
-import React from "react";
-import { TextField } from "material-ui";
-import { UploadHandler } from "components";
-import axios from "axios";
+import React from 'react';
+import { TextField, Input, IconButton } from 'material-ui';
+import { PresentToAll } from 'material-ui-icons';
+import axios from 'axios';
 class UploadSkin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      caption: "",
-      category: "",
-      name: "",
-      uuid: "",
+      caption: '',
+      category: '',
+      name: '',
+      uuid: '',
       uploadComplete: false
     };
     this.uploadComplete = this.uploadComplete.bind(this);
@@ -23,15 +23,15 @@ class UploadSkin extends React.Component {
   }
   onSubmit(e) {
     axios({
-      method: "post",
-      url: "/skin/add",
+      method: 'post',
+      url: '/skin/add',
       data: this.state
     })
       .then(function(response) {
         console.log(response);
       })
       .catch(function(error) {
-        console.log("error occured: ", error);
+        console.log('error occured: ', error);
       });
   }
   onChange(e) {
@@ -42,45 +42,15 @@ class UploadSkin extends React.Component {
   render() {
     return (
       <div>
-        <UploadHandler uploadComplete={this.uploadComplete} />
-        <form onSubmit={this.onSubmit} name="uploadSkin">
-          <TextField
-            fullWidth
-            label="caption"
-            placeHolder="Name of design..."
-            required
-            onChange={this.onChange}
-            type="text"
-            id="caption"
-          />
-          <TextField
-            fullWidth
-            label="categories"
-            required
-            onChange={this.onChange}
-            type="text"
-            id="category"
-          />
-          <TextField
-            fullWidth
-            label="Name"
-            placeHolder="type your name..."
-            required
-            onChange={this.onChange}
-            type="text"
-            id="name"
-          />
-          <TextField
-            fullWidth
-            label="More Information"
-            placeHolder="Brief description about the design..."
-            required
-            onChange={this.onChange}
-            type="text"
-            id="name"
-          />
-          <input type="submit" />
-        </form>
+        <div>
+          <form action="/upload" enctype="multipart/form-data" method="post">
+            <Input type="file" name="file" />
+            <IconButton onClick={this.props.buttonClick}>
+              <PresentToAll />
+            </IconButton>
+          </form>
+        </div>
+      
       </div>
     );
   }

@@ -1,25 +1,20 @@
-import React from "react";
-import Transition from "react-transition-group/Transition";
-import PropTypes from "prop-types";
-import { withStyles, Typography, } from "material-ui";
-
-const styles = {
-  img: {
-    display: "block",
-    width: "100%",
-    height: "auto"
-  },
-  imgContainer: {
-  }
-};
+import React from 'react';
+import Transition from 'react-transition-group/Transition';
+import PropTypes from 'prop-types';
+import { withStyles, Typography, Grid, Button } from 'material-ui';
+import { styles } from './styles';
+import image1 from 'static/image1.jpg'
 class Slide extends React.Component {
   render() {
-    const classes = this.props.classes;
+    const { classes } = this.props;
     const duration = 800;
     const defaultStyle = {
       transition: `opacity ${duration}ms ease-in-out`,
       opacity: 1,
-      display:'relative'
+      display: 'relative',
+      background:`url(${image1})`,
+      backgroundPosition:'cover',
+      backgroundReapeat:'no-repeat'
     };
     const transitionStyles = {
       entering: { opacity: 0.4 },
@@ -33,15 +28,19 @@ class Slide extends React.Component {
             className="slide"
           >
             <div className={classes.imgContainer}>
-              <img src='https://source.unsplash.com/random/1926x968' alt=" slider " className={classes.img} />
+              
             </div>
-            <div className="overlay">
-              <div className="info">
-                <Typography color="primary" align="center" variant="display3">
-                  COME PIC YOUR DESIGN. LOOK AT WHAT YOU LOVE
+            <div className={classes.overlay}>
+              <Grid container justify="center" className={classes.text}>
+                <Typography  align="center" variant="display3" style={{
+                  color:'#fff'
+                }} >
+                  COME PIC YOUR DESIGN<br/> 
                 </Typography>
-                <button className="bttn-warning bttn-fill bttn-md ">Upload Design</button>
-              </div>
+                <Button className="bttn-warning bttn-fill bttn-md ">
+                  Upload Design
+                </Button>
+              </Grid>
             </div>
           </div>
         )}
@@ -53,7 +52,7 @@ Slide.PropTypes = {
   inProp: PropTypes.bool.isRequired
 };
 Slide.defaultProps = {
-  Classes: "lastSlide"
+  Classes: 'lastSlide'
 };
 
 export default withStyles(styles)(Slide);

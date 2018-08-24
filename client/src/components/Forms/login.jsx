@@ -1,34 +1,41 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import Authenticate from 'utils/authenticate';
 import emailValidator from 'utils/emailValidator';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   Input,
   Typography,
-  Card,
+  Paper,
   TextField,
   FormHelperText,
   withStyles
 } from 'material-ui';
+import { login } from 'actions';
 const styles = theme => ({
   root: {
     width: '100%',
     height: 300,
-    marginTop: '1em',
     padding: 32
   },
   card: {
     marginTop: '7em',
-    minWidth: 500,
-    background: theme.palette.primary.light,
-    opacity: 0.9
+    minWidth: 500
   },
   typography: {
-    marginTop: '1em'
+    marginTop: '1em',
+    padding: 24
   }
 });
 
+const mapStateToProps = state => ({
+  loggedIn: state.authState.loggedIn
+});
+const mapDispatchToProps = dispatch => ({
+  login: dispatch(login())
+});
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -55,6 +62,8 @@ class LoginForm extends React.Component {
       })
       .then(res => {
         Authenticate.authenticateUser(res.data.token);
+       
+        this.props.history.push('/Home');
       })
       .catch(error => {
         console.log(error);
@@ -98,12 +107,14 @@ class LoginForm extends React.Component {
       }
     };
     return (
-      <Card className={classes.card} raised>
+      <Paper elevation={6} className={classes.card} raised>
         <Typography
           className={classes.typography}
-          color="secondary"
           align="center"
           variant="display2"
+          style={{
+            color: 'black'
+          }}
         >
           Login:
         </Typography>
@@ -132,11 +143,14 @@ class LoginForm extends React.Component {
           <Input type="submit" value="Login:" onClick={this.state.onSubmit} />
           {this.state.error ? errorState(this.state.error) : null}
         </form>
-      </Card>
+      </Paper>
     );
   }
 }
 LoginForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
-export default withStyles(styles, { withTheme: true })(LoginForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles, { withTheme: true })(withRouter(LoginForm)));

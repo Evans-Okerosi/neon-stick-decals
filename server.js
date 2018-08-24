@@ -1,7 +1,6 @@
 // eslint-disable-line
 const path = require('path')
 require('dotenv').config({path: path.resolve(__dirname, '.env' )}); // load environment config
-
 // eslint-disable-next-line
 const PORT = process.env.PORT || 8080; // set port
 const express = require('express');
@@ -38,7 +37,6 @@ app.use('/signup',require('./controllers/user/signup'))
 app.use('/login', require('./controllers/user/login'))
 app.use('/user',require('./controllers/user/info'))
 
-app.get('/', () => {});
 
 // skins
 app.use('/skin', skin);
