@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.4.3",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "chartist": "^0.11.0",
     "global": "^4.3.2",
     "js-cookie": "^2.2.0",
